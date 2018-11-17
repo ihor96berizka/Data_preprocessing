@@ -1,4 +1,4 @@
-#include "data_generation_routine.h"
+#include "data_generators/discrete_distribution.h"
 
 void count(double* a, double* inter, int* key, size_t size_a, size_t size_inter)
 {

@@ -1,5 +1,6 @@
-#ifndef DATA_GENERATION_ROUTINE_H
-#define DATA_GENERATION_ROUTINE_H
+#ifndef DISCRETE_DISTRIBUTION_H
+#define DISCRETE_DISTRIBUTION_H
+
 #include <ctime>
 #include <cstdlib>
 #include <vector>
@@ -10,4 +11,4 @@ void genRi(int k, double* ri);
 int getDiscreteNumber();
 std::vector<double> getDiscreteVector(size_t numbers);
 
-#endif // DATA_GENERATION_ROUTINE_H
+#endif // DISCRETE_DISTRIBUTION_H
