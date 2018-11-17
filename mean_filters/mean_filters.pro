@@ -26,7 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    data_generators/discrete_dsitribution.cpp
+    data_generators/discrete_distribution.cpp
 
 HEADERS += \
         mainwindow.h \

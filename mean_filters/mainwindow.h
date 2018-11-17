@@ -45,7 +45,11 @@ private:
     QScatterSeries* filteredSignalSeries;
     QScatterSeries* idealSignalSeries;
 
-
+//vectors with sampled signals
+    const size_t numberOfSamples;
+    std::vector<double> realSignal;
+    std::vector<double> filteredSignal;
+    std::vector<double> idealSignal;
 
     void createActions();
     void createMenus();

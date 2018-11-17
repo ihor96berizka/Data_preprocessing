@@ -50,43 +50,37 @@ void genRi(int k, double* ri)
     }
 }
 
-int getDiscreteNumber()
-{
-  size_t size_inter = 3;
-  int x[] = {3, 12, 24};
-  double p[] = {0.5, 0.25, 0.25};
-  double interv[size_inter] = {0};
-  size_t n = 1;
-
-  double ri[n] = {0};
-  for (size_t i = 0; i < size_inter; ++i)
-  {
-      interv[i] = 0;
-      for (size_t j = 0; j < i+1; ++j)
-      {
-          interv[i] += p[j];
-      }
-  }
-
-  genRi(n, ri);
-
-  int key[size_inter] = {0};
-  count(ri, interv, key, n, size_inter);
-
-  int local_data[n] = {0};
-  genVector(x, ri, interv, local_data, n, size_inter);
-
-  return local_data[n/2];
-}
 std::vector<double> getDiscreteVector(size_t numbers)
 {
     std::vector<double> res(numbers, 0);
-    res.reserve(numbers);
+
+    size_t size_inter = 3;
+    int x[] = {3, 12, 24};
+    double p[] = {0.5, 0.25, 0.25};
+    double interv[size_inter] = {0};
+    size_t n = numbers;
+
+    double ri[n] = {0};
+    for (size_t i = 0; i < size_inter; ++i)
+    {
+        interv[i] = 0;
+        for (size_t j = 0; j < i+1; ++j)
+        {
+            interv[i] += p[j];
+        }
+    }
+
+    genRi(n, ri);
+
+    int key[size_inter] = {0};
+    count(ri, interv, key, n, size_inter);
+
+    int local_data[n] = {0};
+    genVector(x, ri, interv, local_data, n, size_inter);
 
     for (size_t i = 0; i < numbers; ++i)
     {
-        res[i] = getDiscreteNumber();
+        res[i] = local_data[i];
     }
-
     return res;
 }

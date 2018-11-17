@@ -1,13 +1,44 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "data_generators/discrete_distribution.h"
+
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    numberOfSamples(100),
+    realSignal(numberOfSamples), filteredSignal(numberOfSamples), idealSignal(numberOfSamples)
 {
     ui->setupUi(this);
     createActions();
     createMenus();
+
+    chart = new QChart();
+    chartView = new QChartView(chart, this);
+
+    realSignalSeries = new QScatterSeries();
+    realSignalSeries->setName("Real signal");
+    realSignalSeries->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+    realSignalSeries->setMarkerSize(10);
+
+    idealSignalSeries = new QScatterSeries();
+    idealSignalSeries->setName("Ideal signal");
+    idealSignalSeries->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+    idealSignalSeries->setMarkerSize(10);
+
+    filteredSignalSeries = new QScatterSeries();
+    filteredSignalSeries->setName("Filtered signal");
+    filteredSignalSeries->setMarkerShape(QScatterSeries::MarkerShapeCircle);
+    filteredSignalSeries->setMarkerSize(10);
+
+    chart->addSeries(realSignalSeries);
+    chart->addSeries(idealSignalSeries);
+    chart->addSeries(filteredSignalSeries);
+    chart->createDefaultAxes();
+
+    setCentralWidget(chartView);
 }
 
 MainWindow::~MainWindow()
@@ -49,7 +80,22 @@ void MainWindow::createMenus()
 
 void MainWindow::genDiscreteNumSignalSlot()
 {
+    realSignal = getDiscreteVector(numberOfSamples);
+    int min_t = -1;
+    int max_t = numberOfSamples * 1.1;
 
+    double maxAmp = *std::max_element(realSignal.cbegin(), realSignal.cend());
+    double minAmp = *std::min_element(realSignal.cbegin(), realSignal.cend());
+    maxAmp += abs(maxAmp)*0.1;
+    minAmp -= abs(minAmp) * 0.1;
+
+    for (size_t i = 0; i < numberOfSamples; ++i)
+    {
+        qDebug() << i << " | " << realSignal[i];
+        realSignalSeries->append(i, realSignal[i]);
+    }
+    chart->axisX()->setRange(min_t, max_t);
+    chart->axisY()->setRange(minAmp, maxAmp);
 }
 
 void MainWindow::genSinSignalSlot()
@@ -74,5 +120,7 @@ void MainWindow::expSmoothFilterSlot()
 
 void MainWindow::clearAllDataSlot()
 {
-
+    realSignalSeries->clear();
+    idealSignalSeries->clear();
+    filteredSignalSeries->clear();
 }
