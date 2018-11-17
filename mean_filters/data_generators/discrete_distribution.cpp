@@ -1,5 +1,7 @@
 #include "data_generators/discrete_distribution.h"
 
+namespace data_generator {
+
 void count(double* a, double* inter, int* key, size_t size_a, size_t size_inter)
 {
     for (size_t i = 0; i < size_a; ++i)
@@ -46,7 +48,7 @@ void genRi(int k, double* ri)
     srand(time(0));
     for (int i = 0; i < k; ++i)
     {
-      ri[i] = double(rand()) / RAND_MAX;
+        ri[i] = double(rand()) / RAND_MAX;
     }
 }
 
@@ -54,9 +56,9 @@ std::vector<double> getDiscreteVector(size_t numbers)
 {
     std::vector<double> res(numbers, 0);
 
-    size_t size_inter = 3;
-    int x[] = {3, 12, 24};
-    double p[] = {0.5, 0.25, 0.25};
+    size_t size_inter = 5;
+    int x[] = {3, 10, 12, 15, 24};
+    double p[] = {0.1, 0.3, 0.3, 0.2, 0.1};
     double interv[size_inter] = {0};
     size_t n = numbers;
 
@@ -83,4 +85,5 @@ std::vector<double> getDiscreteVector(size_t numbers)
         res[i] = local_data[i];
     }
     return res;
+}
 }
