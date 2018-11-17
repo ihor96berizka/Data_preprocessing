@@ -2,13 +2,14 @@
 #include "ui_mainwindow.h"
 
 #include "data_generators/discrete_distribution.h"
+#include "filters/median.h"
 
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    numberOfSamples(100),
+    numberOfSamples(6),
     realSignal(numberOfSamples), filteredSignal(numberOfSamples), idealSignal(numberOfSamples)
 {
     ui->setupUi(this);
@@ -63,6 +64,9 @@ void MainWindow::createActions()
     expSmoothFilter = new QAction(tr("Exp smoothing"), this);
     connect(expSmoothFilter, &QAction::triggered, this, &MainWindow::expSmoothFilterSlot);
 
+    medianFilter = new QAction(tr("Median"), this);
+    connect(medianFilter, &QAction::triggered, this, &MainWindow::medianFilterSlot);
+
     clearAllData = new QAction(tr("Clear all data"), this);
     connect(clearAllData, &QAction::triggered, this, &MainWindow::clearAllDataSlot);
 }
@@ -73,6 +77,7 @@ void MainWindow::createMenus()
     signalMenu->addActions({genDiscreteNumSignal, genSinSignal, clearAllData});
 
     filterMenu = menuBar()->addMenu(tr("Filters"));
+    filterMenu->addAction(medianFilter);
 
     meanFilters = filterMenu->addMenu(tr("Mean filters"));
     meanFilters->addActions({newMeanFilter, movingMeanFilter, expSmoothFilter});
@@ -80,9 +85,11 @@ void MainWindow::createMenus()
 
 void MainWindow::genDiscreteNumSignalSlot()
 {
-    realSignal = getDiscreteVector(numberOfSamples);
+    realSignalSeries->clear();
+
+    realSignal = data_generator::getDiscreteVector(numberOfSamples);
     int min_t = -1;
-    int max_t = numberOfSamples * 1.1;
+    int max_t = numberOfSamples + 1;
 
     double maxAmp = *std::max_element(realSignal.cbegin(), realSignal.cend());
     double minAmp = *std::min_element(realSignal.cbegin(), realSignal.cend());
@@ -116,6 +123,19 @@ void MainWindow::movingMeanFilterSlot()
 void MainWindow::expSmoothFilterSlot()
 {
 
+}
+
+void MainWindow::medianFilterSlot()
+{
+    filteredSignalSeries->clear();
+    size_t window_size = 2;
+    filteredSignal = filter::Median(realSignal, window_size);
+
+    for (size_t i = 0; i < filteredSignal.size(); ++i)
+    {
+        qDebug() << i << " | " << filteredSignal[i];
+        filteredSignalSeries->append(i, filteredSignal[i]);
+    }
 }
 
 void MainWindow::clearAllDataSlot()

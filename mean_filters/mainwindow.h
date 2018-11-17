@@ -36,6 +36,7 @@ private:
     QAction* newMeanFilter;
     QAction* movingMeanFilter;
     QAction* expSmoothFilter;
+    QAction* medianFilter;
     QAction* clearAllData;
 
     //chart routine
@@ -59,6 +60,7 @@ private slots:
     void newMeanFilterSlot();
     void movingMeanFilterSlot();
     void expSmoothFilterSlot();
+    void medianFilterSlot();
     void clearAllDataSlot();
 };
 

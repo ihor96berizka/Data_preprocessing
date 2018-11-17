@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    data_generators/discrete_distribution.cpp
+    data_generators/discrete_distribution.cpp \
+    filters/median.cpp
 
 HEADERS += \
         mainwindow.h \
-    data_generators/discrete_distribution.h
+    data_generators/discrete_distribution.h \
+    filters/median.h
 
 FORMS += \
         mainwindow.ui
