@@ -3,13 +3,14 @@
 
 #include "data_generators/discrete_distribution.h"
 #include "filters/median.h"
+#include "filters/newmean.h"
 
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    numberOfSamples(6),
+    numberOfSamples(50),
     realSignal(numberOfSamples), filteredSignal(numberOfSamples), idealSignal(numberOfSamples)
 {
     ui->setupUi(this);
@@ -112,7 +113,14 @@ void MainWindow::genSinSignalSlot()
 
 void MainWindow::newMeanFilterSlot()
 {
-
+    filteredSignalSeries->clear();
+    filteredSignal = filter::newMean(realSignal);
+    qDebug() << "Filtered";
+    for (size_t i = 0; i < filteredSignal.size(); ++i)
+    {
+        qDebug() << i << " | " << filteredSignal[i];
+        filteredSignalSeries->append(i, filteredSignal[i]);
+    }
 }
 
 void MainWindow::movingMeanFilterSlot()
