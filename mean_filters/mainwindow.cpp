@@ -128,15 +128,14 @@ void MainWindow::newMeanFilterSlot()
 void MainWindow::movingMeanFilterSlot()
 {
     filteredSignalSeries->clear();
-    double alp = 0.3;
     filteredSignal = filter::movingMean(realSignal, 2);
-   /* qDebug() << "Filtered";
+    qDebug() << "Filtered";
     for (size_t i = 0; i < filteredSignal.size(); ++i)
     {
         qDebug() << i << " | " << filteredSignal[i];
         filteredSignalSeries->append(i, filteredSignal[i]);
     }
-    */
+
 }
 
 void MainWindow::expSmoothFilterSlot()
