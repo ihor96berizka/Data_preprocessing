@@ -4,13 +4,15 @@
 #include "data_generators/discrete_distribution.h"
 #include "filters/median.h"
 #include "filters/newmean.h"
+#include "filters/expsmooth.h"
+#include "filters/movingmean.h"
 
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    numberOfSamples(50),
+    numberOfSamples(6),
     realSignal(numberOfSamples), filteredSignal(numberOfSamples), idealSignal(numberOfSamples)
 {
     ui->setupUi(this);
@@ -125,12 +127,29 @@ void MainWindow::newMeanFilterSlot()
 
 void MainWindow::movingMeanFilterSlot()
 {
-
+    filteredSignalSeries->clear();
+    double alp = 0.3;
+    filteredSignal = filter::movingMean(realSignal, 2);
+   /* qDebug() << "Filtered";
+    for (size_t i = 0; i < filteredSignal.size(); ++i)
+    {
+        qDebug() << i << " | " << filteredSignal[i];
+        filteredSignalSeries->append(i, filteredSignal[i]);
+    }
+    */
 }
 
 void MainWindow::expSmoothFilterSlot()
 {
-
+    filteredSignalSeries->clear();
+    double alp = 0.3;
+    filteredSignal = filter::expSmooth(realSignal, alp);
+    qDebug() << "Filtered";
+    for (size_t i = 0; i < filteredSignal.size(); ++i)
+    {
+        qDebug() << i << " | " << filteredSignal[i];
+        filteredSignalSeries->append(i, filteredSignal[i]);
+    }
 }
 
 void MainWindow::medianFilterSlot()

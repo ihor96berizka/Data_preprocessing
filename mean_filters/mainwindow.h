@@ -37,6 +37,7 @@ private:
     QAction* movingMeanFilter;
     QAction* expSmoothFilter;
     QAction* medianFilter;
+
     QAction* clearAllData;
 
     //chart routine

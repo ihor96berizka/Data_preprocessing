@@ -28,13 +28,17 @@ SOURCES += \
         mainwindow.cpp \
     data_generators/discrete_distribution.cpp \
     filters/median.cpp \
-    filters/newmean.cpp
+    filters/newmean.cpp \
+    filters/expsmooth.cpp \
+    filters/movingmean.cpp
 
 HEADERS += \
         mainwindow.h \
     data_generators/discrete_distribution.h \
     filters/median.h \
-    filters/newmean.h
+    filters/newmean.h \
+    filters/expsmooth.h \
+    filters/movingmean.h
 
 FORMS += \
         mainwindow.ui
